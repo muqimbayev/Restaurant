@@ -7,7 +7,7 @@ venv/
 /media/
 
 # Virtual environment o'rnating
-.env
+#.env
 
 # IDE o'rnating
 .vscode/
