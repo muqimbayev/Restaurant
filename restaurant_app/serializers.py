@@ -5,6 +5,9 @@ class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = ('first_name', 'last_name', 'phone_number')
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
 
 class FoodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +17,10 @@ class FoodSerializer(serializers.ModelSerializer):
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = '__all__'
+        fields = ('name', 'username', 'phone_number', type)
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
 
 class Restaurant_commentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +35,14 @@ class Restaurant_locationSerializer(serializers.ModelSerializer):
 class Food_commentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Food_comment
+        fields = '__all__'
+
+class FoodImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Food_images
+        fields = '__all__'
+
+class RestaurantImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Restaurant_images
         fields = '__all__'
