@@ -4,7 +4,7 @@ from .models import *
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ('first_name', 'last_name', 'phone_number')
+        fields = '__all__'
         extra_kwargs = {
             'password': {'write_only': True},
         }
@@ -17,7 +17,7 @@ class FoodSerializer(serializers.ModelSerializer):
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ('name', 'username', 'phone_number', type)
+        fields = ('name', 'username', 'phone_number', 'type')
         extra_kwargs = {
             'password': {'write_only': True},
         }

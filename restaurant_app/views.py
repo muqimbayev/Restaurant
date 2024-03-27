@@ -1,11 +1,10 @@
 from django.shortcuts import render
+
+# Create your views here.
+from django.shortcuts import render
 from rest_framework import viewsets
-
-from .models import Users, Restaurant, Restaurant_location, Restaurant_comment, Food, Food_comment
-from .serializers import UsersSerializer, RestaurantSerializer, Restaurant_commentSerializer, \
-    Restaurant_locationSerializer, FoodSerializer, Food_commentSerializer
-
-
+from .models import *
+from .serializers import *
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -36,3 +35,11 @@ class FoodViewSet(viewsets.ModelViewSet):
 class Food_commentViewSet(viewsets.ModelViewSet):
     queryset = Food_comment.objects.all()
     serializer_class = Food_commentSerializer
+
+class Food_imagesViewSet(viewsets.ModelViewSet):
+    queryset = Food_images.objects.all()
+    serializer_class = FoodImageSerializer
+
+class Restaurant_imagesViewSet(viewsets.ModelViewSet):
+    queryset = Restaurant_images.objects.all()
+    serializer_class = RestaurantImageSerializer

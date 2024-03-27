@@ -73,3 +73,4 @@ class  Food_images(models.Model):
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     food_id = models.ForeignKey(Food, on_delete=models.CASCADE)
     image = models.ImageField()
+
