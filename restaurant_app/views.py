@@ -1,13 +1,11 @@
 from django.shortcuts import render
-
-from rest_framework.decorators import api_view
-from django.shortcuts import render
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
 import os
 import requests
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 # Create your views here.
 
@@ -49,16 +47,6 @@ class Restaurant_imagesViewSet(viewsets.ModelViewSet):
     serializer_class = RestaurantImageSerializer
 
 
-import os
-import requests
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import Restaurant_location
-import os
-import requests
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import Restaurant_location
 
 @api_view(['GET'])
 def get_user_location(request):
