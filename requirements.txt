@@ -3,3 +3,4 @@ djangorestframework
 environs
 psycopg2
 Pillow
+rest_framework_simplejwt
