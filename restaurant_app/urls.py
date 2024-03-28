@@ -15,6 +15,6 @@ router.register(r'food_images', views.Food_imagesViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('location/', views.get_user_location, name='location')
+    path('location/', views.get_user_location, name='location'),
 ]
 
