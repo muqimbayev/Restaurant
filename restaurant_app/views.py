@@ -62,10 +62,9 @@ def get_user_location(request):
     def calculate_distances(locations, user_latitude, user_longitude):
         distances = []
         for location in locations:
-            distance_in_meters = (((user_latitude - location['latitude']) ** 2 + (
-                    user_longitude - location['longitude']) ** 2) ** 0.5) * 111
+            distance_in_meters = (((user_latitude - location['latitude']) ** 2 +
+                                   (user_longitude - location['longitude']) ** 2) ** 0.5) * 111
             distances.append((location['name'], distance_in_meters))
-        print(distances)
         return distances
 
     locations_db = Restaurant_location.objects.all()
@@ -80,15 +79,15 @@ def get_user_location(request):
 
     restaurant_info = calculate_distances(locations, latitude, longitude)
     info = []
-    for restaurant, distance in restaurant_info:
+    for restaurant, distance in sorted(restaurant_info, key=lambda x: x[1]):
+        loc = Restaurant_location.objects.get(restaurant_id__name=restaurant)
         restaurant_info = {
             'name': restaurant,
-            'region': location.region,
-            'district': location.district,
-            'address': location.address,
+            'region': loc.region,
+            'district': loc.district,
+            'address': loc.address,
         }
+
         info.append(restaurant_info)
 
     return Response(info)
-
-

@@ -13,5 +13,5 @@ venv/
 .vscode/
 .idea/
 *.iml
-
+.env
 # Bu yerda qo'shish mumkin
