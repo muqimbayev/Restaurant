@@ -1,0 +1,17 @@
+# Python kataloglarini e'tiborsiz qoldirish
+__pycache__/
+venv/
+
+# Django ma'lumotlar bazasi va media fayllarini e'tiborsiz qoldirish
+/db.sqlite3
+/media/
+
+# Virtual environment o'rnating
+#.env
+
+# IDE o'rnating
+.vscode/
+.idea/
+*.iml
+.env
+# Bu yerda qo'shish mumkin

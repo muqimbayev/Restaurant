@@ -1,0 +1,8 @@
+django~=5.0.3
+djangorestframework~=3.15.1
+environs~=11.0.0
+psycopg2
+Pillow
+rest_framework_simplejwt
+requests~=2.31.0
+fuzzywuzzy~=0.18.0
