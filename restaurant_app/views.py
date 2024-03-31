@@ -105,15 +105,6 @@ def get_user_location(request):
     return Response(info)
 
 
-# class RestaurantListView(generics.ListAPIView):
-#     serializer_class = RestaurantSerializer
-#
-#     # fuzzy_fields = {'name': 2, 'description': 1, 'address': 1}
-#     @swagger_auto_schema(
-#         manual_parameters=[
-#             openapi.Parameter('search', openapi.IN_QUERY, description="Search term", type=openapi.TYPE_STRING)
-#         ]
-#     )
 
 class RestaurantSearchAPIView(generics.ListAPIView):
     serializer_class = RestaurantSerializer
