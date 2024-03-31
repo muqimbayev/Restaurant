@@ -1,0 +1,38 @@
+*{
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+  }
+
+
+body{
+    background-image: url("https://klike.net/uploads/posts/2023-02/1676355650_3-69.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+section{
+    height: 100vh;
+}
+
+.wrap{
+    padding-top: 45vh;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.box{
+    display: flex;
+    justify-content: space-around;
+}
+
+.user, .restaurant{
+    background-color: rgb(78, 78, 193);
+    padding: 14px 34px;
+    border-radius: 8px;
+}
+
+a{
+    color: white;
+}

@@ -1,19 +1,81 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
 
-class Users(models.Model):
+# class Users(models.Model):
+#     first_name = models.CharField(max_length=30)
+#     last_name = models.CharField(max_length=30)
+#     phone_number = models.CharField(max_length=15,  unique=True)
+#     password = models.CharField(max_length=128)
+#
+#     def save(self, *args, **kwargs):
+#         if self.password:
+#             self.password = make_password(self.password)
+#         super(Users, self).save(*args, **kwargs)
+#
+#     def __str__(self):
+#         return self.first_name +' '+ self.last_name
+
+
+from django.db import models
+from django.contrib.auth.hashers import make_password
+
+# Create your models here.
+
+from django.db import models
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+
+
+class UsersManager(BaseUserManager):
+    def create_user(self, first_name, last_name, phone_number, password=None):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        if not phone_number:
+            raise ValueError("Users must have an email address")
+
+        user = self.model(
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number,
+
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, first_name, last_name, phone_number, password=None):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        user = self.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number,
+            password=password,
+        )
+        user.is_staff=True
+        user.is_admin = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+
+
+class Users(AbstractBaseUser,  PermissionsMixin):
+    objects = UsersManager()
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    phone_number = models.CharField(max_length=15,  unique=True)
+    phone_number = models.CharField(max_length=15, unique=True, db_index=True)
     password = models.CharField(max_length=128)
-
-    def save(self, *args, **kwargs):
-        if self.password: 
-            self.password = make_password(self.password)  
-        super(Users, self).save(*args, **kwargs)
+    USERNAME_FIELD = "phone_number"
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.first_name +' '+ self.last_name
+
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
