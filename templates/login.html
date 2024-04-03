@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+    <html lang="en">
+      <head>
+        <title>Login </title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
+        <div class="login-box">
+          <h1>Login</h1>
+          <form method="POST">
+            {% csrf_token %}
+            <label>Phone Number</label>
+            <input type="text" id="phone_number" placeholder="" />
+            <label>Password</label>
+            <input type="password" id="password" placeholder="" />
+            <input type="button" value="Submit" />
+          </form>
+        </div>
+        <p class="para-2">
+          Not have an account? <a href="/signin">Sign In Here</a>
+        </p>
+      </body>
+    </html>

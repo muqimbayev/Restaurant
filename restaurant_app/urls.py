@@ -2,6 +2,7 @@ from rest_framework import routers
 from django.urls import path, include
 
 from restaurant_app import views
+from restaurant_app.views import login, home, sigin, login_restaurant, signin_restaurant
 
 router = routers.DefaultRouter()
 router.register(r'User', views.UserViewSet)
@@ -14,7 +15,12 @@ router.register(r'restaurant_images', views.Restaurant_imagesViewSet)
 router.register(r'food_images', views.Food_imagesViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', home, name='home'),
+    path('login', login, name='login'),
+    path('signin', sigin, name='sigin'),
+    path('login_restaurant', login_restaurant, name='login_restaurant'),
+    path('signin_restaurant', signin_restaurant, name='signin_restaurant'),
+    path('reduc', include(router.urls)),
     path('location/', views.get_user_location, name='location'),
 ]
 

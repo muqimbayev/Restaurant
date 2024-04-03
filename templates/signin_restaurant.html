@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+    <html lang="en">
+      <head>
+        <title>Sign Up</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
+        <div class="signup-box">
+          <h1>Sign Up</h1>
+          <h4>It's free and only takes a minute</h4>
+          <form method="POST">
+            {% csrf_token %}
+            <label>Name</label>
+            <input type="text" id="name" placeholder="" />
+            <label>Phone Number</label>
+            <input type="text" id="phone_number" placeholder="" />
+            <label>Type</label>
+            <input type="text" id="type">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="" />
+            <input type="button" value="Submit" />
+          </form>
+        </div>
+        <p class="para-2">
+          Already have an account? <a href="/login">Login here</a>
+        </p>
+      </body>
+    </html>
