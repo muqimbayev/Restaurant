@@ -1,11 +1,9 @@
+import json
 import re
 
-from django.db.models import F, Q
-from django.db.models.functions import Power
-from django.shortcuts import render
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
-
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import Distance
+from django.http import JsonResponse, HttpResponse
 from rest_framework.decorators import api_view
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters, status
@@ -15,7 +13,7 @@ from .models import *
 from .serializers import *
 import os
 import requests
-from fuzzywuzzy import process
+
 from rest_framework.response import Response
 
 
@@ -67,6 +65,7 @@ def get_user_location(request):
     url = f'https://www.googleapis.com/geolocation/v1/geolocate?key={maps_key}'
     data = {}
     response = requests.post(url, json=data)
+    response.raise_for_status()
     location_data = response.json()
     latitude = location_data['location']['lat']
     longitude = location_data['location']['lng']
@@ -105,13 +104,22 @@ def get_user_location(request):
     return Response(info)
 
 
-
 class RestaurantSearchAPIView(generics.ListAPIView):
+    queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
     def get_queryset(self):
-        queryset = Restaurant.objects.all()
+        queryset = super().get_queryset()
         search_query = self.request.query_params.get('search', None)
+
+        user_location_data = get_user_location(self.request._request)  # Retrieve user's location
+        latitude = user_location_data.get('latitude')
+        longitude = user_location_data.get('longitude')
+
+        if latitude is not None and longitude is not None:
+            user_location = Point(longitude, latitude, srid=4326)  # Construct Point object for user location
+            queryset = queryset.annotate(distance=Distance('location', user_location)).order_by('distance')
+            # print(queryset)
 
         if search_query:
             search_query_lower = search_query.lower()
@@ -120,7 +128,6 @@ class RestaurantSearchAPIView(generics.ListAPIView):
             filtered_restaurants = []
 
             for restaurant in queryset:
-
                 restaurant_name = restaurant.name.replace("<", "").replace(">", "").capitalize()
                 restaurant_name_lower = restaurant_name.lower()
                 restaurant_name_set = set(restaurant_name_lower)

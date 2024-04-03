@@ -15,6 +15,7 @@ class Users(models.Model):
     def __str__(self):
         return self.first_name +' '+ self.last_name
 
+
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100, unique=True)
@@ -50,11 +51,11 @@ class Restaurant_comment(models.Model):
     score = models.FloatField()
 
 
-
 class Food(models.Model):
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name
 
@@ -70,6 +71,7 @@ class Food_comment(models.Model):
 class Restaurant_images(models.Model):
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     image = models.ImageField()
+
 
 class  Food_images(models.Model):
     restaurant_id = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
