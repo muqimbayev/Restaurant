@@ -157,3 +157,6 @@ AUTH_USER_MODEL = 'restaurant_app.Users'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GDAL_LIBRARY_PATH = r'D:\bin\gdal308'
+GEOS_LIBRARY_PATH = 'D:/bin/geos_c.dll'

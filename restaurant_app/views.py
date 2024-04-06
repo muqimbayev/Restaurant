@@ -3,10 +3,11 @@
 from django.contrib.auth import authenticate, login as auth_login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import Distance
 from rest_framework.decorators import api_view
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets,generics
 from .models import *
 from .serializers import *
 import os
@@ -96,6 +97,47 @@ def get_user_location(request):
 
     return Response(info)
 
+class RestaurantSearchAPIView(generics.ListAPIView):
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.query_params.get('search', None)
+
+        user_location_data = get_user_location(self.request._request)  # Retrieve user's location
+        latitude = user_location_data.get('latitude')
+        longitude = user_location_data.get('longitude')
+
+        if latitude is not None and longitude is not None:
+            user_location = Point(longitude, latitude, srid=4326)  # Construct Point object for user location
+            queryset = queryset.annotate(distance=Distance('location', user_location)).order_by('distance')
+            # print(queryset)
+
+        if search_query:
+            search_query_lower = search_query.lower()
+            search_set = set(search_query_lower)
+
+            filtered_restaurants = []
+
+            for restaurant in queryset:
+                restaurant_name = restaurant.name.replace("<", "").replace(">", "").capitalize()
+                restaurant_name_lower = restaurant_name.lower()
+                restaurant_name_set = set(restaurant_name_lower)
+
+                search_set_intersection = restaurant_name_set.intersection(search_set)
+
+                if len(search_set_intersection) >= len(search_set) / 2:
+                    filtered_restaurants.append(restaurant)
+
+            return filtered_restaurants
+        else:
+            return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
 
 def home(request):
     return render(request, 'home.html')
